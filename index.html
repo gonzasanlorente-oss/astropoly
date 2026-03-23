@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASTROPOLY</title>
+    <!-- Custom Space Cyberpunk Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="starfield"></div>
+
+    <!-- MAIN MENU -->
+    <div id="main-menu" class="screen active">
+        <h1 class="main-title glitched" data-text="ASTROPOLY">ASTROPOLY</h1>
+        <div class="menu-box border-glow-cyan">
+            <h2 id="menu-title">MENÚ PRINCIPAL</h2>
+            <div class="menu-buttons">
+                <div class="create-section" style="display: flex; flex-direction: column; gap: 10px;">
+                    <input type="text" id="create-code" placeholder="CÓDIGO PERSONALIZADO (Opcional)" autocomplete="off">
+                    <button id="btn-create-game" class="btn-cyan">CREAR PARTIDA</button>
+                </div>
+                <hr style="width: 100%; border: 0; border-top: 1px solid rgba(0,255,255,0.2); margin: 10px 0;">
+                <div class="join-section" style="display: flex; flex-direction: column; gap: 10px;">
+                    <input type="text" id="join-code" placeholder="CÓDIGO DE SALA" autocomplete="off">
+                    <button id="btn-join-game" class="btn-purple">UNIRSE A PARTIDA</button>
+                </div>
+            </div>
+            <div id="lobby-status" class="lobby-message"></div>
+        </div>
+    </div>
+
+    <!-- GAME SCREEN -->
+    <div id="game-screen" class="screen">
+        <header class="game-header">
+            <div class="room-info">
+                SALA: <span id="current-room-code" class="highlight">---</span>
+            </div>
+            <h1 class="game-title">ASTROPOLY</h1>
+            
+            <div class="lang-selector">
+                <button class="lang-btn" data-lang="es" title="Español">🇪🇸</button>
+                <button class="lang-btn" data-lang="fr" title="Français">🇫🇷</button>
+                <button class="lang-btn" data-lang="en" title="English">🇬🇧</button>
+            </div>
+        </header>
+
+        <div class="game-container">
+            <!-- Left Side: Players -->
+            <aside class="players-panel border-glow-purple">
+                <h3 id="panel-players-title">JUGADORES (Créditos)</h3>
+                <ul id="players-list">
+                    <!-- Player list gets injected here -->
+                </ul>
+                <div id="game-controls" style="margin-top: 10px; display: flex; flex-direction: column; gap: 10px;">
+                    <button id="btn-start-game" class="btn-cyan hidden">INICIAR PARTIDA</button>
+                    <button id="btn-restart-game" class="btn-purple hidden" style="font-size: 0.9rem;">REINICIAR</button>
+                </div>
+                <div class="my-controls">
+                    <button id="btn-roll-dice" class="btn-cyan" disabled>TIRAR DADO</button>
+                    <div id="dice-result" class="dice-display">--</div>
+                </div>
+            </aside>
+
+            <!-- Center: Game Board -->
+            <main class="board-area">
+                <div class="board" id="astropoly-board">
+                    <!-- Board cells injected by JS -->
+                </div>
+            </main>
+
+            <!-- Right Side: Cards & Actions -->
+            <aside class="cards-panel">
+                <div class="card-deck border-glow-purple" id="deck-surprises">
+                    <h3 id="panel-surprises-title">SORPRESAS</h3>
+                    <div class="card-icon">❗</div>
+                    <p style="font-size: 0.9rem; opacity: 0.8;">Cae en Cápsula de Suerte para obtener un regalo.</p>
+                </div>
+
+                <div class="card-deck border-glow-cyan" id="deck-questions">
+                    <h3 id="panel-questions-title">PREGUNTAS</h3>
+                    <div class="card-icon">❓</div>
+                    <p style="font-size: 0.9rem; opacity: 0.8;">Cae en Pregunta Espacial para ganar créditos.</p>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- Card Modal -->
+    <div id="card-modal" class="modal-overlay hidden">
+        <div class="modal-box border-glow-cyan">
+            <h2 id="modal-card-title">CARTA</h2>
+            <p id="modal-card-text">Texto de la carta...</p>
+            <div class="modal-actions">
+                <button id="btn-close-modal" class="btn-cyan">CERRAR</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Buy Property Modal (Small & Discrete) -->
+    <div id="buy-modal" class="modal-overlay hidden" style="background: rgba(0,0,0,0.5); pointer-events: none;">
+        <div class="modal-box border-glow-purple mini-modal" style="pointer-events: all; width: 320px;">
+            <div id="buy-card-header" style="height: 40px; margin: -20px -20px 10px -20px; border-radius: 10px 10px 0 0; display: flex; align-items: center; justify-content: center;">
+                <span id="buy-prop-name" style="font-size: 1.2rem; font-weight: bold; color: white; text-shadow: 1px 1px 2px black;">---</span>
+            </div>
+            
+            <div class="rent-info" style="font-size: 0.9rem; text-align: left; margin-bottom: 15px;">
+                <div style="text-align: center; margin-bottom: 5px; font-weight: bold;">ALQUILER: <span id="r0" class="highlight">0</span> CG</div>
+                <div style="display: flex; justify-content: space-between;"><span>Con 1 Casa</span> <span id="r1" class="highlight">0</span></div>
+                <div style="display: flex; justify-content: space-between;"><span>Con 2 Casas</span> <span id="r2" class="highlight">0</span></div>
+                <div style="display: flex; justify-content: space-between;"><span>Con 3 Casas</span> <span id="r3" class="highlight">0</span></div>
+                <div style="display: flex; justify-content: space-between;"><span>Con 4 Casas</span> <span id="r4" class="highlight">0</span></div>
+                <div style="display: flex; justify-content: space-between; font-weight: bold; color: #ff00ff;"><span>Con HOTEL</span> <span id="rh" class="highlight">0</span></div>
+                <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.2); margin: 5px 0;">
+                <div style="display: flex; justify-content: space-between;"><span>Coste Casa</span> <span id="hc" class="highlight">0</span></div>
+                <div style="display: flex; justify-content: space-between;"><span>Valor Hipoteca</span> <span id="mt" class="highlight">0</span></div>
+            </div>
+
+            <div class="modal-actions" style="display: flex; gap: 10px; justify-content: center;">
+                <button id="btn-buy" class="btn-cyan" style="padding: 10px; font-size: 0.9rem; flex: 1;">COMPRAR POR <span id="buy-price">0</span></button>
+                <button id="btn-pass" class="btn-purple" style="padding: 10px; font-size: 0.9rem; flex: 1;">PASAR</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Overlay -->
+    <div id="notification-container"></div>
+
+    <!-- Libraries -->
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+    <script src="data.js"></script>
+    <script src="multiplayer.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
