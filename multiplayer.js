@@ -15,8 +15,37 @@ const gameState = {
 // Colors for 6 players
 const playerColors = ['#ff3333', '#3366ff', '#33ff33', '#ffff33', '#ff00ff', '#00ffff'];
 
+// WebRTC Config for restrictive networks (Schools/Institutes)
+const peerConfig = {
+    config: {
+        'iceServers': [
+            // Public Google STUN servers (helps find public IPs)
+            { urls: 'stun:stun.l.google.com:19302' },
+            { urls: 'stun:stun1.l.google.com:19302' },
+            { urls: 'stun:stun2.l.google.com:19302' },
+            
+            // Public Free TURN server (relays traffic if direct UDP P2P is blocked)
+            {
+                urls: "turn:openrelay.metered.ca:80",
+                username: "openrelayproject",
+                credential: "openrelayproject"
+            },
+            {
+                urls: "turn:openrelay.metered.ca:443",
+                username: "openrelayproject",
+                credential: "openrelayproject"
+            },
+            {
+                urls: "turn:openrelay.metered.ca:443?transport=tcp",
+                username: "openrelayproject",
+                credential: "openrelayproject"
+            }
+        ]
+    }
+};
+
 function initPeer(onOpenCb, onDataCb, onConnectionCb, customId = null) {
-    peer = customId ? new Peer(customId) : new Peer();
+    peer = customId ? new Peer(customId, peerConfig) : new Peer(peerConfig);
     peer.on('open', (id) => {
         myPeerId = id;
         onOpenCb(id);
