@@ -155,6 +155,11 @@ function updateLanguageTexts() {
     document.getElementById('panel-questions-title').textContent = texts.QUESTIONS;
     document.getElementById('btn-close-modal').textContent = texts.CLOSE;
 
+    const surprisesDesc = document.getElementById('panel-surprises-desc');
+    if (surprisesDesc) surprisesDesc.textContent = texts.SURPRISES_DESC;
+    const questionsDesc = document.getElementById('panel-questions-desc');
+    if (questionsDesc) questionsDesc.textContent = texts.QUESTIONS_DESC;
+
     // Additional UI and Modal translations
     document.getElementById('btn-start-game').textContent = texts.START_GAME;
     document.getElementById('btn-restart-game').textContent = texts.RESTART_GAME;

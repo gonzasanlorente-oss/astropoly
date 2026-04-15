@@ -26,7 +26,9 @@ const GameData = {
             LABEL_HC: "Coste Casa",
             LABEL_MT: "Valor Hipoteca",
             LABEL_BUY: "COMPRAR POR",
-            LABEL_PASS: "PASAR"
+            LABEL_PASS: "PASAR",
+            SURPRISES_DESC: "Cae en Cápsula de Suerte para obtener un regalo.",
+            QUESTIONS_DESC: "Cae en Pregunta Espacial para ganar créditos."
         },
         en: {
             MENU_TITLE: "MAIN MENU",
@@ -54,7 +56,9 @@ const GameData = {
             LABEL_HC: "House Cost",
             LABEL_MT: "Mortgage Value",
             LABEL_BUY: "BUY FOR",
-            LABEL_PASS: "PASS"
+            LABEL_PASS: "PASS",
+            SURPRISES_DESC: "Land on Luck Capsule to get a gift.",
+            QUESTIONS_DESC: "Land on Space Trivia to win credits."
         },
         fr: {
             MENU_TITLE: "MENU PRINCIPAL",
@@ -82,7 +86,9 @@ const GameData = {
             LABEL_HC: "Coût Maison",
             LABEL_MT: "Valeur Hypothèque",
             LABEL_BUY: "ACHETER POUR",
-            LABEL_PASS: "PASSER"
+            LABEL_PASS: "PASSER",
+            SURPRISES_DESC: "Atterrissez sur une Capsule Chance pour un cadeau.",
+            QUESTIONS_DESC: "Atterrissez sur Trivia Spatiale pour des crédits."
         }
     },
     surprises: [
