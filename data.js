@@ -14,7 +14,19 @@ const GameData = {
             CLOSE: "CERRAR",
             WAITING_PLAYERS: "Esperando jugadores...",
             TURN_OF: "Turno de: ",
-            YOUR_TURN: "¡Es tu turno!"
+            YOUR_TURN: "¡Es tu turno!",
+            START_GAME: "INICIAR PARTIDA",
+            RESTART_GAME: "REINICIAR",
+            LABEL_RENT: "ALQUILER:",
+            LABEL_H1: "Con 1 Casa",
+            LABEL_H2: "Con 2 Casas",
+            LABEL_H3: "Con 3 Casas",
+            LABEL_H4: "Con 4 Casas",
+            LABEL_HOTEL: "Con HOTEL",
+            LABEL_HC: "Coste Casa",
+            LABEL_MT: "Valor Hipoteca",
+            LABEL_BUY: "COMPRAR POR",
+            LABEL_PASS: "PASAR"
         },
         en: {
             MENU_TITLE: "MAIN MENU",
@@ -30,7 +42,19 @@ const GameData = {
             CLOSE: "CLOSE",
             WAITING_PLAYERS: "Waiting for players...",
             TURN_OF: "Turn of: ",
-            YOUR_TURN: "It's your turn!"
+            YOUR_TURN: "It's your turn!",
+            START_GAME: "START GAME",
+            RESTART_GAME: "RESTART",
+            LABEL_RENT: "RENT:",
+            LABEL_H1: "With 1 House",
+            LABEL_H2: "With 2 Houses",
+            LABEL_H3: "With 3 Houses",
+            LABEL_H4: "With 4 Houses",
+            LABEL_HOTEL: "With HOTEL",
+            LABEL_HC: "House Cost",
+            LABEL_MT: "Mortgage Value",
+            LABEL_BUY: "BUY FOR",
+            LABEL_PASS: "PASS"
         },
         fr: {
             MENU_TITLE: "MENU PRINCIPAL",
@@ -46,7 +70,19 @@ const GameData = {
             CLOSE: "FERMER",
             WAITING_PLAYERS: "En attente de joueurs...",
             TURN_OF: "Tour de : ",
-            YOUR_TURN: "C'est votre tour !"
+            YOUR_TURN: "C'est votre tour !",
+            START_GAME: "DÉMARRER PARTIE",
+            RESTART_GAME: "REDÉMARRER",
+            LABEL_RENT: "LOYER:",
+            LABEL_H1: "Avec 1 Maison",
+            LABEL_H2: "Avec 2 Maisons",
+            LABEL_H3: "Avec 3 Maisons",
+            LABEL_H4: "Avec 4 Maisons",
+            LABEL_HOTEL: "Avec HÔTEL",
+            LABEL_HC: "Coût Maison",
+            LABEL_MT: "Valeur Hypothèque",
+            LABEL_BUY: "ACHETER POUR",
+            LABEL_PASS: "PASSER"
         }
     },
     surprises: [

@@ -40,9 +40,9 @@
             <h1 class="game-title">ASTROPOLY</h1>
             
             <div class="lang-selector">
-                <button class="lang-btn" data-lang="es" title="Español">🇪🇸</button>
-                <button class="lang-btn" data-lang="fr" title="Français">🇫🇷</button>
-                <button class="lang-btn" data-lang="en" title="English">🇬🇧</button>
+                <button class="lang-btn" data-lang="es" title="Español" style="font-weight: bold;">ES</button>
+                <button class="lang-btn" data-lang="fr" title="Français" style="font-weight: bold;">FR</button>
+                <button class="lang-btn" data-lang="en" title="English" style="font-weight: bold;">EN</button>
             </div>
         </header>
 
@@ -106,20 +106,20 @@
             </div>
             
             <div class="rent-info" style="font-size: 0.9rem; text-align: left; margin-bottom: 15px;">
-                <div style="text-align: center; margin-bottom: 5px; font-weight: bold;">ALQUILER: <span id="r0" class="highlight">0</span> CG</div>
-                <div style="display: flex; justify-content: space-between;"><span>Con 1 Casa</span> <span id="r1" class="highlight">0</span></div>
-                <div style="display: flex; justify-content: space-between;"><span>Con 2 Casas</span> <span id="r2" class="highlight">0</span></div>
-                <div style="display: flex; justify-content: space-between;"><span>Con 3 Casas</span> <span id="r3" class="highlight">0</span></div>
-                <div style="display: flex; justify-content: space-between;"><span>Con 4 Casas</span> <span id="r4" class="highlight">0</span></div>
-                <div style="display: flex; justify-content: space-between; font-weight: bold; color: #ff00ff;"><span>Con HOTEL</span> <span id="rh" class="highlight">0</span></div>
+                <div style="text-align: center; margin-bottom: 5px; font-weight: bold;"><span id="label-rent">ALQUILER:</span> <span id="r0" class="highlight">0</span> CG</div>
+                <div style="display: flex; justify-content: space-between;"><span id="label-h1">Con 1 Casa</span> <span id="r1" class="highlight">0</span></div>
+                <div style="display: flex; justify-content: space-between;"><span id="label-h2">Con 2 Casas</span> <span id="r2" class="highlight">0</span></div>
+                <div style="display: flex; justify-content: space-between;"><span id="label-h3">Con 3 Casas</span> <span id="r3" class="highlight">0</span></div>
+                <div style="display: flex; justify-content: space-between;"><span id="label-h4">Con 4 Casas</span> <span id="r4" class="highlight">0</span></div>
+                <div style="display: flex; justify-content: space-between; font-weight: bold; color: #ff00ff;"><span id="label-hotel">Con HOTEL</span> <span id="rh" class="highlight">0</span></div>
                 <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.2); margin: 5px 0;">
-                <div style="display: flex; justify-content: space-between;"><span>Coste Casa</span> <span id="hc" class="highlight">0</span></div>
-                <div style="display: flex; justify-content: space-between;"><span>Valor Hipoteca</span> <span id="mt" class="highlight">0</span></div>
+                <div style="display: flex; justify-content: space-between;"><span id="label-hc">Coste Casa</span> <span id="hc" class="highlight">0</span></div>
+                <div style="display: flex; justify-content: space-between;"><span id="label-mt">Valor Hipoteca</span> <span id="mt" class="highlight">0</span></div>
             </div>
 
             <div class="modal-actions" style="display: flex; gap: 10px; justify-content: center;">
-                <button id="btn-buy" class="btn-cyan" style="padding: 10px; font-size: 0.9rem; flex: 1;">COMPRAR POR <span id="buy-price">0</span></button>
-                <button id="btn-pass" class="btn-purple" style="padding: 10px; font-size: 0.9rem; flex: 1;">PASAR</button>
+                <button id="btn-buy" class="btn-cyan" style="padding: 10px; font-size: 0.9rem; flex: 1;"><span id="label-buy">COMPRAR POR</span> <span id="buy-price">0</span></button>
+                <button id="btn-pass" class="btn-purple" style="padding: 10px; font-size: 0.9rem; flex: 1;" id="label-pass">PASAR</button>
             </div>
         </div>
     </div>

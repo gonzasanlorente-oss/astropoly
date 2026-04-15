@@ -154,6 +154,25 @@ function updateLanguageTexts() {
     document.getElementById('panel-surprises-title').textContent = texts.SURPRISES;
     document.getElementById('panel-questions-title').textContent = texts.QUESTIONS;
     document.getElementById('btn-close-modal').textContent = texts.CLOSE;
+
+    // Additional UI and Modal translations
+    document.getElementById('btn-start-game').textContent = texts.START_GAME;
+    document.getElementById('btn-restart-game').textContent = texts.RESTART_GAME;
+    
+    // Modal buy texts (if the modal is currently configured)
+    const labelRent = document.getElementById('label-rent');
+    if (labelRent) {
+        labelRent.textContent = texts.LABEL_RENT;
+        document.getElementById('label-h1').textContent = texts.LABEL_H1;
+        document.getElementById('label-h2').textContent = texts.LABEL_H2;
+        document.getElementById('label-h3').textContent = texts.LABEL_H3;
+        document.getElementById('label-h4').textContent = texts.LABEL_H4;
+        document.getElementById('label-hotel').textContent = texts.LABEL_HOTEL;
+        document.getElementById('label-hc').textContent = texts.LABEL_HC;
+        document.getElementById('label-mt').textContent = texts.LABEL_MT;
+        document.getElementById('label-buy').textContent = texts.LABEL_BUY;
+        document.getElementById('label-pass').textContent = texts.LABEL_PASS;
+    }
 }
 
 function renderBoard() {
