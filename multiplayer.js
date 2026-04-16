@@ -8,9 +8,15 @@ const gameState = {
     players: [],
     turnIndex: 0,
     started: false,
+    hasRolled: false,
     jailAction: null,
     properties: {}
 };
+
+function advanceTurn() {
+    gameState.turnIndex = (gameState.turnIndex + 1) % gameState.players.length;
+    gameState.hasRolled = false;
+}
 
 // Colors for 6 players
 const playerColors = ['#ff3333', '#3366ff', '#33ff33', '#ffff33', '#ff00ff', '#00ffff'];
@@ -139,6 +145,9 @@ function handleAction(data, senderId) {
     if (!player) return;
 
     if (data.action === 'MOVE') {
+        if (gameState.hasRolled) return; // Only one roll per turn
+        gameState.hasRolled = true;
+
         const oldPos = player.position;
         player.position = (player.position + data.steps) % 28;
         if (player.position < oldPos) {
@@ -183,7 +192,7 @@ function handleAction(data, senderId) {
 
         // Si no se ha disparado una acción que requiera respuesta (Comprar o Carta), pasamos turno
         if (!actionTriggered) {
-            gameState.turnIndex = (gameState.turnIndex + 1) % gameState.players.length;
+            advanceTurn();
         }
         broadcastState();
     } else if (data.action === 'BUY' || data.action === 'PASS') {
@@ -198,7 +207,7 @@ function handleAction(data, senderId) {
             }
         }
         // Pasamos turno tras comprar o pasar
-        gameState.turnIndex = (gameState.turnIndex + 1) % gameState.players.length;
+        advanceTurn();
         broadcastState();
     } else if (data.action === 'DRAW_SURPRISE') {
         let card = GameData.surprises[Math.floor(Math.random() * GameData.surprises.length)];
@@ -225,10 +234,10 @@ function handleAction(data, senderId) {
             conns.forEach(c => c.send({type: 'NOTIFICATION', message: msg}));
             if(window.showNotificationLocal) window.showNotificationLocal(msg);
         }
-        gameState.turnIndex = (gameState.turnIndex + 1) % gameState.players.length;
+        advanceTurn();
         broadcastState();
     } else if (data.action === 'NEXT_TURN') {
-        gameState.turnIndex = (gameState.turnIndex + 1) % gameState.players.length;
+        advanceTurn();
         broadcastState();
     } else if (data.action === 'START_GAME') {
         gameState.started = true;
@@ -244,6 +253,7 @@ function handleAction(data, senderId) {
         });
         gameState.properties = {};
         gameState.turnIndex = 0;
+        gameState.hasRolled = false;
         gameState.started = true;
         broadcastState();
     }

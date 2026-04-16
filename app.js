@@ -142,6 +142,9 @@ function initUI() {
         };
         document.getElementById('buy-card-header').style.backgroundColor = colorMap[cell.color] || '#333';
         
+        // Disable dice while modal is open
+        document.getElementById('btn-roll-dice').disabled = true;
+
         // Show the modal
         const modal = document.getElementById('buy-modal');
         modal.classList.remove('hidden');
@@ -339,8 +342,11 @@ function updateGameUI(state) {
         btnRestart.classList.add('hidden');
     }
 
-    // Dice only enabled if game started and it's my turn
-    if(state.started && myTurn) {
+    // Dice only enabled if game started, it's my turn, and NO modal is open
+    const buyModalOpen = !document.getElementById('buy-modal').classList.contains('hidden');
+    const cardModalOpen = !document.getElementById('card-modal').classList.contains('hidden');
+
+    if(state.started && myTurn && !buyModalOpen && !cardModalOpen && !state.hasRolled) {
         btnDice.disabled = false;
     } else {
         btnDice.disabled = true;
@@ -351,6 +357,9 @@ function showCardLocal(card) {
     const texts = GameData.languages[currentLang];
     const modal = document.getElementById('card-modal');
     modal.classList.remove('hidden');
+    
+    // Disable dice while modal is open
+    document.getElementById('btn-roll-dice').disabled = true;
     
     // Translate Card
     const cardTitle = card.title[currentLang] || card.title['es'];
