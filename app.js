@@ -246,8 +246,9 @@ function updateGameUI(state) {
     const list = document.getElementById('players-list');
     list.innerHTML = '';
     
-    // Clear old token indicators if any (not needed now as we use absolute playerTokens)
+    // Clear old token indicators and ownership markers
     document.querySelectorAll('.tokens-area').forEach(el => el.innerHTML = '');
+    document.querySelectorAll('.property-owner').forEach(el => el.remove());
 
     let myTurn = false;
     const currentTurnId = state.players[state.turnIndex]?.id;
@@ -295,27 +296,27 @@ function updateGameUI(state) {
 
         // Animate or teleport token
         let tokenEl = window.playerTokens[p.id];
-        const boardEl = document.getElementById('astropoly-board');
         if (!tokenEl) {
             tokenEl = document.createElement('div');
             tokenEl.className = 'player-token animated-token';
             tokenEl.style.backgroundColor = p.color;
             tokenEl.style.boxShadow = `0 0 10px ${p.color}, inset 0 0 5px white`;
             tokenEl.title = p.name;
-            boardEl.appendChild(tokenEl);
             window.playerTokens[p.id] = tokenEl;
         }
 
         const cellEl = document.querySelector(`.custom-cell-${p.position}`);
         if(cellEl) {
-            const rect = cellEl.getBoundingClientRect();
-            const boardRect = boardEl.getBoundingClientRect();
-            // Offset to avoid stacking
-            const ox = (index % 3) * 6;
-            const oy = Math.floor(index / 3) * 6;
-            // Positioning relative to board container
-            tokenEl.style.left = (rect.left - boardRect.left + rect.width/2 - 10 + ox) + 'px';
-            tokenEl.style.top = (rect.top - boardRect.top + rect.height/2 - 10 + oy) + 'px';
+            // Append token to the cell itself - FIXED FOR SCROLL
+            cellEl.appendChild(tokenEl);
+            
+            // Offset to avoid stacking in the center
+            const ox = (index % 3) * 6 - 6;
+            const oy = Math.floor(index / 3) * 6 - 6;
+            
+            tokenEl.style.left = `calc(50% + ${ox}px)`;
+            tokenEl.style.top = `calc(50% + ${oy}px)`;
+            tokenEl.style.transform = 'translate(-50%, -50%)';
         }
     });
 
