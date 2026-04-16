@@ -167,6 +167,10 @@ function handleAction(data, senderId) {
                 // Turn ends after paying rent
                 gameState.turnIndex = (gameState.turnIndex + 1) % gameState.players.length;
                 broadcastState();
+            } else {
+                // Owned by self or cannot afford unowned property
+                gameState.turnIndex = (gameState.turnIndex + 1) % gameState.players.length;
+                broadcastState();
             }
         } else if (cell.type === 'action') {
             if (cell.subType === 'surprise') {
@@ -177,6 +181,7 @@ function handleAction(data, senderId) {
                 conns.forEach(c => c.send({type: 'CARD_DRAWN', card: card, player: player.name}));
             } else if (cell.subType === 'question') {
                 let card = GameData.questions[Math.floor(Math.random() * GameData.questions.length)];
+                card.isQuestion = true;
                 broadcastState();
                 if(window.showCardLocal) window.showCardLocal(card);
                 conns.forEach(c => c.send({type: 'CARD_DRAWN', card: card, player: player.name}));
@@ -208,9 +213,25 @@ function handleAction(data, senderId) {
         conns.forEach(c => c.send({type: 'CARD_DRAWN', card: card, player: player.name}));
     } else if (data.action === 'DRAW_QUESTION') {
         let card = GameData.questions[Math.floor(Math.random() * GameData.questions.length)];
+        card.isQuestion = true;
         broadcastState();
         if(window.showCardLocal) window.showCardLocal(card);
         conns.forEach(c => c.send({type: 'CARD_DRAWN', card: card, player: player.name}));
+    } else if (data.action === 'QUESTION_ANSWER') {
+        const amt = 50;
+        if (data.correct) {
+            player.credits += amt;
+            const msg = `${player.name} +${amt} CG! (Respuesta Correcta)`;
+            conns.forEach(c => c.send({type: 'NOTIFICATION', message: msg}));
+            if(window.showNotificationLocal) window.showNotificationLocal(msg);
+        } else {
+            player.credits -= amt;
+            const msg = `${player.name} -${amt} CG. (Respuesta Incorrecta)`;
+            conns.forEach(c => c.send({type: 'NOTIFICATION', message: msg}));
+            if(window.showNotificationLocal) window.showNotificationLocal(msg);
+        }
+        gameState.turnIndex = (gameState.turnIndex + 1) % gameState.players.length;
+        broadcastState();
     } else if (data.action === 'NEXT_TURN') {
         gameState.turnIndex = (gameState.turnIndex + 1) % gameState.players.length;
         broadcastState();

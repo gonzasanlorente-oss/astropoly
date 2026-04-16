@@ -62,11 +62,20 @@ function initUI() {
     document.getElementById('btn-close-modal').addEventListener('click', () => {
         document.getElementById('card-modal').classList.add('hidden');
         if(isHost) {
-            // Next turn on close if needed, simplified logic:
             sendActionToHost({action: 'NEXT_TURN'});
         } else {
             sendActionToHost({action: 'NEXT_TURN'});
         }
+    });
+
+    document.getElementById('btn-correct').addEventListener('click', () => {
+        document.getElementById('card-modal').classList.add('hidden');
+        sendActionToHost({action: 'QUESTION_ANSWER', correct: true});
+    });
+
+    document.getElementById('btn-incorrect').addEventListener('click', () => {
+        document.getElementById('card-modal').classList.add('hidden');
+        sendActionToHost({action: 'QUESTION_ANSWER', correct: false});
     });
 
     document.getElementById('btn-roll-dice').addEventListener('click', () => {
@@ -330,4 +339,28 @@ function showCardLocal(card) {
     
     document.getElementById('modal-card-title').textContent = cardTitle;
     document.getElementById('modal-card-text').textContent = cardText;
+
+    if (card.isQuestion) {
+        document.getElementById('btn-close-modal').classList.add('hidden');
+        document.getElementById('btn-correct').classList.remove('hidden');
+        document.getElementById('btn-incorrect').classList.remove('hidden');
+        
+        switch (currentLang) {
+            case 'en':
+                document.getElementById('btn-correct').textContent = 'CORRECT';
+                document.getElementById('btn-incorrect').textContent = 'INCORRECT';
+                break;
+            case 'fr':
+                document.getElementById('btn-correct').textContent = 'CORRECT';
+                document.getElementById('btn-incorrect').textContent = 'INCORRECT';
+                break;
+            default:
+                document.getElementById('btn-correct').textContent = 'CORRECTO';
+                document.getElementById('btn-incorrect').textContent = 'INCORRECTO';
+        }
+    } else {
+        document.getElementById('btn-close-modal').classList.remove('hidden');
+        document.getElementById('btn-correct').classList.add('hidden');
+        document.getElementById('btn-incorrect').classList.add('hidden');
+    }
 }

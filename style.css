@@ -229,7 +229,7 @@ input[type="text"]:focus { box-shadow: 0 0 10px var(--neon-cyan); }
 /* MODAL */
 .modal-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8); z-index: 1000;
+    background: rgba(0,0,0,0.8); z-index: 3000;
     display: flex; justify-content: center; align-items: center;
 }
 .modal-box {
@@ -246,7 +246,7 @@ input[type="text"]:focus { box-shadow: 0 0 10px var(--neon-cyan); }
 
 #notification-container {
     position: fixed; top: 20px; right: 20px;
-    z-index: 2000; display: flex; flex-direction: column; gap: 10px;
+    z-index: 4000; display: flex; flex-direction: column; gap: 10px;
 }
 .notification {
     background: rgba(0,0,0,0.9); border: 1px solid var(--neon-cyan);
