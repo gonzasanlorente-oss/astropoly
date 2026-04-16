@@ -254,7 +254,7 @@ function handleAction(data, senderId) {
         gameState.properties = {};
         gameState.turnIndex = 0;
         gameState.hasRolled = false;
-        gameState.started = true;
+        gameState.started = false; // Requiere dar a "Iniciar" otra vez
         broadcastState();
     }
 }

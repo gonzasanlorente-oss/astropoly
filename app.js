@@ -107,6 +107,10 @@ function initUI() {
     });
 
     document.getElementById('btn-start-game').addEventListener('click', () => {
+        if(gameState.players.length < 2) {
+            alert('Se necesitan al menos 2 jugadores para iniciar.');
+            return;
+        }
         sendActionToHost({action: 'START_GAME'});
     });
 
@@ -332,6 +336,7 @@ function updateGameUI(state) {
     if(isHost) {
         if(!state.started) {
             btnStart.classList.remove('hidden');
+            btnStart.disabled = state.players.length < 2;
             btnRestart.classList.add('hidden');
         } else {
             btnStart.classList.add('hidden');
