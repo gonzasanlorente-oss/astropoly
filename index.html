@@ -92,8 +92,10 @@
         <div class="modal-box border-glow-cyan">
             <h2 id="modal-card-title">CARTA</h2>
             <p id="modal-card-text">Texto de la carta...</p>
-            <div class="modal-actions" style="display: flex; gap: 10px; justify-content: center;">
+            <p id="modal-answer-text" class="hidden" style="color: var(--neon-cyan); font-weight: bold; margin-top: 10px; border-top: 1px solid rgba(0,255,255,0.3); padding-top: 10px;">RESPUESTA: ...</p>
+            <div class="modal-actions" style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
                 <button id="btn-close-modal" class="btn-cyan">CERRAR</button>
+                <button id="btn-reveal-answer" class="btn-cyan hidden">REVELAR RESPUESTA</button>
                 <button id="btn-correct" class="btn-cyan hidden">CORRECTO</button>
                 <button id="btn-incorrect" class="btn-purple hidden">INCORRECTO</button>
             </div>

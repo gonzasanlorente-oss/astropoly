@@ -85,6 +85,13 @@ function initUI() {
         sendActionToHost({action: 'QUESTION_ANSWER', correct: false});
     });
 
+    document.getElementById('btn-reveal-answer').addEventListener('click', () => {
+        document.getElementById('modal-answer-text').classList.remove('hidden');
+        document.getElementById('btn-correct').classList.remove('hidden');
+        document.getElementById('btn-incorrect').classList.remove('hidden');
+        document.getElementById('btn-reveal-answer').classList.add('hidden');
+    });
+
     document.getElementById('btn-roll-dice').addEventListener('click', () => {
         document.getElementById('btn-roll-dice').disabled = true;
         const diceNum = Math.floor(Math.random() * 6) + 1;
@@ -372,11 +379,22 @@ function showCardLocal(card) {
     
     document.getElementById('modal-card-title').textContent = cardTitle;
     document.getElementById('modal-card-text').textContent = cardText;
+    document.getElementById('modal-answer-text').classList.add('hidden');
+    document.getElementById('btn-reveal-answer').classList.add('hidden');
+    document.getElementById('btn-correct').classList.add('hidden');
+    document.getElementById('btn-incorrect').classList.add('hidden');
 
     if (card.isQuestion) {
         document.getElementById('btn-close-modal').classList.add('hidden');
-        document.getElementById('btn-correct').classList.remove('hidden');
-        document.getElementById('btn-incorrect').classList.remove('hidden');
+        document.getElementById('modal-answer-text').textContent = (texts.ANSWER || "ANSWER: ") + (card.answer[currentLang] || card.answer['es']);
+        
+        if (isHost) {
+            document.getElementById('btn-reveal-answer').classList.remove('hidden');
+            document.getElementById('btn-reveal-answer').textContent = texts.REVEAL_ANSWER || "REVEAL ANSWER";
+        } else {
+            // Clients wait for host decision
+            document.getElementById('modal-card-text').innerHTML += `<br><br><small style='color:var(--neon-cyan)'>Esperando decisión del anfitrión...</small>`;
+        }
         
         switch (currentLang) {
             case 'en':
