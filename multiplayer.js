@@ -1,3 +1,9 @@
+let peer = null;
+let conn = null; // for clients
+let conns = [];  // for host
+let isHost = false;
+let myPeerId = null;
+
 const gameState = {
     players: [],
     turnIndex: 0,
