@@ -104,6 +104,9 @@ function broadcastState() {
 
 function addPlayerBase(id, name) {
     if(gameState.players.length >= 6) return; // Max 6
+    // Check if player already exists
+    if(gameState.players.some(p => p.id === id)) return;
+    
     gameState.players.push({
         id: id,
         name: name,

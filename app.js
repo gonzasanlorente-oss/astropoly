@@ -19,15 +19,22 @@ function initUI() {
                 document.getElementById('main-menu').classList.remove('active');
                 document.getElementById('game-screen').classList.add('active');
                 
+                // Reset state for new session
+                gameState.players = [];
+                gameState.properties = {};
+                gameState.started = false;
+
                 // Add host to game
                 addPlayerBase(id, 'Anfitrión');
-                gameState.started = false; // Wait for Start button
                 window.updateGameUI(gameState);
             },
             (state) => {},
             (peerid) => { console.log('Peer joined: ', peerid); },
             customId
         );
+        // Disable buttons to avoid double click
+        document.getElementById('btn-create-game').disabled = true;
+        document.getElementById('btn-join-game').disabled = true;
     });
 
     document.getElementById('btn-join-game').addEventListener('click', () => {
