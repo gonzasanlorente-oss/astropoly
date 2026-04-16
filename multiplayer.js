@@ -262,11 +262,26 @@ function handleAction(data, senderId) {
         const targetId = data.playerId;
         const playerIndex = gameState.players.findIndex(p => p.id === targetId);
         if (playerIndex !== -1) {
+            // Adjust turn if the kicked person was current or before current
+            if (playerIndex < gameState.turnIndex) {
+                gameState.turnIndex--;
+            } else if (playerIndex === gameState.turnIndex) {
+                gameState.hasRolled = false;
+            }
+            
             gameState.players.splice(playerIndex, 1);
+            
+            // Boundary check
+            if (gameState.players.length > 0) {
+                gameState.turnIndex = gameState.turnIndex % gameState.players.length;
+            } else {
+                gameState.turnIndex = 0;
+            }
+
             const targetConn = conns.find(c => c.peer === targetId);
             if(targetConn) {
                 targetConn.send({ type: 'ERROR', code: 'KICKED' });
-                setTimeout(() => targetConn.close(), 1000);
+                setTimeout(() => targetConn.close(), 500);
                 conns = conns.filter(c => c.peer !== targetId);
             }
             broadcastState();

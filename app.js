@@ -2,6 +2,7 @@ let currentLang = 'es';
 let pendingBuyCell = null;
 
 document.addEventListener('DOMContentLoaded', () => {
+    window.currentLang = currentLang;
     initUI();
     renderBoard();
     updateLanguageTexts();
@@ -264,11 +265,15 @@ function updateGameUI(state) {
     document.querySelectorAll('.tokens-area').forEach(el => el.innerHTML = '');
     document.querySelectorAll('.property-owner').forEach(el => el.remove());
 
+    // Clean up ghost tokens
+    if (window.playerTokens) {
+        Object.values(window.playerTokens).forEach(t => t.style.display = 'none');
+    } else {
+        window.playerTokens = {};
+    }
+
     let myTurn = false;
     const currentTurnId = state.players[state.turnIndex]?.id;
-
-    // Use a global object to persist tokens across UI updates for animation
-    if (!window.playerTokens) window.playerTokens = {};
 
     // Redraw owners
     for(const [cellIndex, ownerId] of Object.entries(state.properties)) {
@@ -322,6 +327,7 @@ function updateGameUI(state) {
             tokenEl.title = p.name;
             window.playerTokens[p.id] = tokenEl;
         }
+        tokenEl.style.display = 'block';
 
         const cellEl = document.querySelector(`.custom-cell-${p.position}`);
         if(cellEl) {
