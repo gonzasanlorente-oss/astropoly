@@ -263,8 +263,16 @@ function updateGameUI(state) {
             if(cellTokens) {
                 const div = document.createElement('div');
                 div.className = 'property-owner';
+                
+                // Orient towards center
+                const idx = parseInt(cellIndex);
+                if(idx <= 7) div.classList.add('owner-bottom');
+                else if(idx <= 13) div.classList.add('owner-left');
+                else if(idx <= 21) div.classList.add('owner-top');
+                else div.classList.add('owner-right');
+                
                 div.style.backgroundColor = ownerPlayer.color;
-                div.style.boxShadow = `0 -2px 10px ${ownerPlayer.color}`;
+                div.style.boxShadow = `0 0 10px ${ownerPlayer.color}`;
                 cellTokens.parentElement.appendChild(div);
             }
         }
@@ -287,24 +295,27 @@ function updateGameUI(state) {
 
         // Animate or teleport token
         let tokenEl = window.playerTokens[p.id];
+        const boardEl = document.getElementById('astropoly-board');
         if (!tokenEl) {
             tokenEl = document.createElement('div');
             tokenEl.className = 'player-token animated-token';
             tokenEl.style.backgroundColor = p.color;
             tokenEl.style.boxShadow = `0 0 10px ${p.color}, inset 0 0 5px white`;
             tokenEl.title = p.name;
-            document.body.appendChild(tokenEl);
+            boardEl.appendChild(tokenEl);
             window.playerTokens[p.id] = tokenEl;
         }
 
         const cellEl = document.querySelector(`.custom-cell-${p.position}`);
         if(cellEl) {
             const rect = cellEl.getBoundingClientRect();
+            const boardRect = boardEl.getBoundingClientRect();
             // Offset to avoid stacking
             const ox = (index % 3) * 6;
             const oy = Math.floor(index / 3) * 6;
-            tokenEl.style.left = (rect.left + rect.width/2 - 10 + ox) + 'px';
-            tokenEl.style.top = (rect.top + rect.height/2 - 10 + oy) + 'px';
+            // Positioning relative to board container
+            tokenEl.style.left = (rect.left - boardRect.left + rect.width/2 - 10 + ox) + 'px';
+            tokenEl.style.top = (rect.top - boardRect.top + rect.height/2 - 10 + oy) + 'px';
         }
     });
 
