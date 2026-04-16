@@ -145,19 +145,18 @@ function handleAction(data, senderId) {
             // Passed START
             player.credits += 200;
         }
-        broadcastState();
-
         const cell = GameData.board[player.position];
+        let actionTriggered = false;
+
         if (cell.type === 'property' || cell.type === 'station') {
             const ownerId = gameState.properties[player.position];
             if (!ownerId && player.credits >= cell.price) {
-                // Not owned, trigger buy prompt locally for that player
+                actionTriggered = true;
                 conns.forEach(c => {
                     if (c.peer === senderId) c.send({type: 'PROMPT_BUY', cellIndex: player.position, price: cell.price});
                 });
                 if(senderId === myPeerId) window.promptBuyLocal(player.position, cell.price);
             } else if (ownerId && ownerId !== senderId) {
-                // Owned by someone else, pay rent
                 const ownerPlayer = gameState.players.find(p => p.id === ownerId);
                 const rent = cell.baseRent || Math.floor(cell.price / 5) || 10;
                 player.credits -= rent;
@@ -166,34 +165,27 @@ function handleAction(data, senderId) {
                 const msg = `${player.name} pagó ${rent} CG a ${ownerPlayer ? ownerPlayer.name : 'el Banco'}`;
                 conns.forEach(c => c.send({type: 'NOTIFICATION', message: msg}));
                 if(window.showNotificationLocal) window.showNotificationLocal(msg);
-                
-                // Turn ends after paying rent
-                gameState.turnIndex = (gameState.turnIndex + 1) % gameState.players.length;
-                broadcastState();
-            } else {
-                // Owned by self or cannot afford unowned property
-                gameState.turnIndex = (gameState.turnIndex + 1) % gameState.players.length;
-                broadcastState();
             }
         } else if (cell.type === 'action') {
+            actionTriggered = true;
             if (cell.subType === 'surprise') {
                 let card = GameData.surprises[Math.floor(Math.random() * GameData.surprises.length)];
                 applyCard(player, card);
-                broadcastState();
                 if(window.showCardLocal) window.showCardLocal(card);
                 conns.forEach(c => c.send({type: 'CARD_DRAWN', card: card, player: player.name}));
             } else if (cell.subType === 'question') {
                 let card = GameData.questions[Math.floor(Math.random() * GameData.questions.length)];
                 card.isQuestion = true;
-                broadcastState();
                 if(window.showCardLocal) window.showCardLocal(card);
                 conns.forEach(c => c.send({type: 'CARD_DRAWN', card: card, player: player.name}));
             }
-        } else if (cell.type === 'corner') {
-            // End turn on corners too
-            gameState.turnIndex = (gameState.turnIndex + 1) % gameState.players.length;
-            broadcastState();
         }
+
+        // Si no se ha disparado una acción que requiera respuesta (Comprar o Carta), pasamos turno
+        if (!actionTriggered) {
+            gameState.turnIndex = (gameState.turnIndex + 1) % gameState.players.length;
+        }
+        broadcastState();
     } else if (data.action === 'BUY' || data.action === 'PASS') {
         if (data.action === 'BUY') {
             const cell = GameData.board[data.cellIndex];

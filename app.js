@@ -86,10 +86,10 @@ function initUI() {
     });
 
     document.getElementById('btn-roll-dice').addEventListener('click', () => {
+        document.getElementById('btn-roll-dice').disabled = true;
         const diceNum = Math.floor(Math.random() * 6) + 1;
         document.getElementById('dice-result').textContent = diceNum;
         sendActionToHost({action: 'MOVE', steps: diceNum});
-        document.getElementById('btn-roll-dice').disabled = true;
     });
 
     document.getElementById('btn-buy').addEventListener('click', () => {
