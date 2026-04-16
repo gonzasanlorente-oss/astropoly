@@ -26,6 +26,7 @@
                     <input type="text" id="join-code" placeholder="CÓDIGO DE SALA" autocomplete="off">
                     <button id="btn-join-game" class="btn-purple">UNIRSE A PARTIDA</button>
                 </div>
+                <a href="GUIA_ASTROPOLY.pdf" download class="btn-purple" style="font-size: 0.8rem; padding: 10px; text-decoration: none; margin-top: 10px; display: block; text-align: center;">DESCARGAR GUÍA (PDF)</a>
             </div>
             <div id="lobby-status" class="lobby-message"></div>
         </div>
@@ -34,8 +35,9 @@
     <!-- GAME SCREEN -->
     <div id="game-screen" class="screen">
         <header class="game-header">
-            <div class="room-info">
-                SALA: <span id="current-room-code" class="highlight">---</span>
+            <div class="room-info" style="display: flex; align-items: center; gap: 15px;">
+                <span>SALA: <span id="current-room-code" class="highlight">---</span></span>
+                <a href="GUIA_ASTROPOLY.pdf" download class="btn-cyan" style="font-size: 0.7rem; padding: 5px 12px; text-decoration: none; display: inline-block;">GUÍA PDF</a>
             </div>
             <h1 class="game-title">ASTROPOLY</h1>
             
