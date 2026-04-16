@@ -30,7 +30,10 @@ const GameData = {
             SURPRISES_DESC: "Cae en Cápsula de Suerte para obtener un regalo.",
             QUESTIONS_DESC: "Cae en Pregunta Espacial para ganar créditos.",
             REVEAL_ANSWER: "REVELAR RESPUESTA",
-            ANSWER: "RESPUESTA: "
+            ANSWER: "RESPUESTA: ",
+            ERROR_FULL: "¡SALA LLENA! Máximo 6 jugadores.",
+            KICK: "EXPULSAR",
+            KICKED_MSG: "Has sido expulsado de la sala."
         },
         en: {
             MENU_TITLE: "MAIN MENU",
@@ -62,7 +65,10 @@ const GameData = {
             SURPRISES_DESC: "Land on Luck Capsule to get a gift.",
             QUESTIONS_DESC: "Land on Space Trivia to win credits.",
             REVEAL_ANSWER: "REVEAL ANSWER",
-            ANSWER: "ANSWER: "
+            ANSWER: "ANSWER: ",
+            ERROR_FULL: "ROOM FULL! Maximum 6 players.",
+            KICK: "KICK",
+            KICKED_MSG: "You have been kicked from the room."
         },
         fr: {
             MENU_TITLE: "MENU PRINCIPAL",
@@ -94,7 +100,10 @@ const GameData = {
             SURPRISES_DESC: "Atterrissez sur une Capsule Chance pour un cadeau.",
             QUESTIONS_DESC: "Atterrissez sur Trivia Spatiale pour des crédits.",
             REVEAL_ANSWER: "RÉVÉLER RÉPONSE",
-            ANSWER: "RÉPONSE : "
+            ANSWER: "RÉPONSE : ",
+            ERROR_FULL: "SALLE PLEINE ! Max 6 joueurs.",
+            KICK: "EXPULSER",
+            KICKED_MSG: "Vous avez été expulsé de la salle."
         }
     },
     surprises: [

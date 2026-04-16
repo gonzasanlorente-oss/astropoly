@@ -299,10 +299,14 @@ function updateGameUI(state) {
         if(index === state.turnIndex) li.classList.add('active-turn');
         if(p.id === myPeerId && p.id === currentTurnId) myTurn = true;
         
+        const texts = GameData.languages[currentLang];
+        const kickBtn = (isHost && p.id !== myPeerId) ? `<button class="btn-kick" data-id="${p.id}">${texts.KICK || "KICK"}</button>` : '';
+
         li.innerHTML = `
-            <div>
+            <div style="display:flex; align-items:center;">
                 <span class="color-indicator" style="background:${p.color};"></span>
                 <strong>${p.name}</strong>
+                ${kickBtn}
             </div>
             <div>${p.credits} CG</div>
         `;
@@ -321,17 +325,23 @@ function updateGameUI(state) {
 
         const cellEl = document.querySelector(`.custom-cell-${p.position}`);
         if(cellEl) {
-            // Append token to the cell itself - FIXED FOR SCROLL
             cellEl.appendChild(tokenEl);
-            
-            // Offset to avoid stacking in the center
             const ox = (index % 3) * 6 - 6;
             const oy = Math.floor(index / 3) * 6 - 6;
-            
             tokenEl.style.left = `calc(50% + ${ox}px)`;
             tokenEl.style.top = `calc(50% + ${oy}px)`;
             tokenEl.style.transform = 'translate(-50%, -50%)';
         }
+    });
+
+    // Handle kick clicks
+    document.querySelectorAll('.btn-kick').forEach(btn => {
+        btn.onclick = (e) => {
+            const pid = e.target.dataset.id;
+            if(confirm("Kick player?")) {
+                sendActionToHost({action: 'KICK_PLAYER', playerId: pid});
+            }
+        };
     });
 
     // Update buttons

@@ -58,6 +58,13 @@ function initPeer(onOpenCb, onDataCb, onConnectionCb, customId = null) {
 
     peer.on('connection', (connection) => {
         if (!isHost) return;
+        if (gameState.players.length >= 6) {
+            connection.on('open', () => {
+                connection.send({ type: 'ERROR', code: 'ROOM_FULL' });
+                setTimeout(() => connection.close(), 1000);
+            });
+            return;
+        }
         conns.push(connection);
         connection.on('data', (data) => {
             handleIncomeDataFromPeer(data, connection.peer, onDataCb);
@@ -88,6 +95,11 @@ function joinGame(hostId, onDataCb, onJoinSuccess) {
             if(window.showCardLocal) window.showCardLocal(data.card);
         } else if (data.type === 'CLOSE_CARD') {
             document.getElementById('card-modal').classList.add('hidden');
+        } else if (data.type === 'ERROR') {
+            const texts = GameData.languages[window.currentLang || 'es'];
+            if (data.code === 'ROOM_FULL') alert(texts.ERROR_FULL);
+            if (data.code === 'KICKED') alert(texts.KICKED_MSG);
+            location.reload();
         }
     });
 }
@@ -246,6 +258,19 @@ function handleAction(data, senderId) {
         gameState.usedQuestionIds = [];
         gameState.started = false;
         broadcastState();
+    } else if (data.action === 'KICK_PLAYER') {
+        const targetId = data.playerId;
+        const playerIndex = gameState.players.findIndex(p => p.id === targetId);
+        if (playerIndex !== -1) {
+            gameState.players.splice(playerIndex, 1);
+            const targetConn = conns.find(c => c.peer === targetId);
+            if(targetConn) {
+                targetConn.send({ type: 'ERROR', code: 'KICKED' });
+                setTimeout(() => targetConn.close(), 1000);
+                conns = conns.filter(c => c.peer !== targetId);
+            }
+            broadcastState();
+        }
     }
 }
 

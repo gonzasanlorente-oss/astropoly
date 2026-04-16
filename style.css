@@ -244,6 +244,22 @@ input[type="text"]:focus { box-shadow: 0 0 10px var(--neon-cyan); }
     color: var(--neon-cyan); text-shadow: 0 0 10px var(--neon-cyan);
 }
 
+.btn-kick {
+    background: transparent;
+    color: #ff3333;
+    border: 1px solid #ff3333;
+    padding: 2px 8px;
+    font-size: 0.7rem;
+    border-radius: 3px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+.btn-kick:hover {
+    background: #ff3333;
+    color: white;
+    box-shadow: 0 0 10px #ff3333;
+}
+
 #notification-container {
     position: fixed; top: 20px; right: 20px;
     z-index: 4000; display: flex; flex-direction: column; gap: 10px;
